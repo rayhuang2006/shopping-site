@@ -1,0 +1,3 @@
+node_modules/*
+shopping.db
+package-lock.json
