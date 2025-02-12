@@ -4,7 +4,7 @@
     <div>
       <h3>Categories</h3>
       <ul>
-        <li v-for="category in categories" :key="category" @click="filterByCategory(category)">
+        <li v-for="category in categories" :key="category" @click="goToCategory(category)">
           {{ category }}
         </li>
       </ul>
@@ -15,7 +15,8 @@
         <p>{{ product.desc }}</p>
         <p>{{ product.price }}</p>
         <img :src="product.imageUrl" alt="Product Image" />
-        <button @click="addToCart(product.id)">Add to Cart</button>
+        <button v-if="role === 'admin'" @click="deleteProduct(product.id)">Delete</button>
+        <button v-else @click="addToCart(product.id)">Add to Cart</button>
       </div>
     </div>
   </div>
@@ -23,12 +24,16 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   setup() {
     const products = ref([]);
     const categories = ref([]);
     const selectedCategory = ref('');
+    const route = useRoute();
+    const router = useRouter();
+    const role = ref(localStorage.getItem('role') || '');
 
     const fetchProducts = async () => {
       try {
@@ -37,7 +42,7 @@ export default {
         });
         const data = await response.json();
         products.value = data;
-        categories.value = [...new Set(data.map(product => product.category))];
+        categories.value = ['All', ...new Set(data.map(product => product.category))];
       } catch (error) {
         console.error('Failed to fetch products:', error);
       }
@@ -62,13 +67,37 @@ export default {
       }
     };
 
+    const deleteProduct = async (productId) => {
+      const response = await fetch(`http://localhost:3000/product/delete/${productId}`, {
+        method: 'DELETE',
+        headers: { 
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        products.value = products.value.filter(product => product.id !== productId);
+      } else {
+        alert(data.error);
+      }
+    };
+
+    const goToCategory = (category) => {
+      if (category === 'All') {
+        router.push('/products/list');
+      } else {
+        router.push(`/products/category/${category}`);
+      }
+    };
+
     onMounted(fetchProducts);
 
     const filteredProducts = computed(() => {
-      if (!selectedCategory.value) {
+      const category = route.params.category || selectedCategory.value;
+      if (!category || category === 'All') {
         return products.value;
       }
-      return products.value.filter(product => product.category === selectedCategory.value);
+      return products.value.filter(product => product.category === category);
     });
 
     return {
@@ -77,7 +106,10 @@ export default {
       selectedCategory,
       filterByCategory,
       addToCart,
+      deleteProduct,
       filteredProducts,
+      goToCategory,
+      role,
     };
   },
 };

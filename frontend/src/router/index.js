@@ -7,6 +7,7 @@ import AddProduct from '../components/AddProduct.vue';
 const routes = [
   { path: '/', redirect: '/products/list' },
   { path: '/products/list', component: ProductList },
+  { path: '/products/category/:category', component: ProductList },
   { path: '/login', component: UserLogin },
   { path: '/cart', component: ShoppingCart },
   { path: '/products/add', component: AddProduct },

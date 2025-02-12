@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>Login</h2>
-    <form @submit.prevent="login">
+    <h2>{{ isRegistering ? 'Register' : 'Login' }}</h2>
+    <form @submit.prevent="isRegistering ? register() : login()">
       <div>
         <label for="username">Username:</label>
         <input type="text" id="username" v-model="username" required />
@@ -10,21 +10,9 @@
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="password" required />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">{{ isRegistering ? 'Register' : 'Login' }}</button>
     </form>
-
-    <h2>Register</h2>
-    <form @submit.prevent="register">
-      <div>
-        <label for="regUsername">Username:</label>
-        <input type="text" id="regUsername" v-model="regUsername" required />
-      </div>
-      <div>
-        <label for="regPassword">Password:</label>
-        <input type="password" id="regPassword" v-model="regPassword" required />
-      </div>
-      <button type="submit">Register</button>
-    </form>
+    <button @click="toggleForm">{{ isRegistering ? 'Already have an account? Login' : 'Don\'t have an account? Register' }}</button>
   </div>
 </template>
 
@@ -38,8 +26,11 @@ export default {
     const router = useRouter();
     const username = ref('');
     const password = ref('');
-    const regUsername = ref('');
-    const regPassword = ref('');
+    const isRegistering = ref(false);
+
+    const toggleForm = () => {
+      isRegistering.value = !isRegistering.value;
+    };
 
     const login = async () => {
       try {
@@ -51,7 +42,9 @@ export default {
         const data = await response.json();
         if (response.ok) {
           localStorage.setItem('token', data.token);
-          isLoggedIn.value = true; // 更新 isLoggedIn 狀態
+          localStorage.setItem('username', username.value); 
+          localStorage.setItem('role', data.role); // 存儲 role
+          isLoggedIn.value = true; 
           router.push('/products/list');
         } else {
           alert(data.error);
@@ -66,11 +59,12 @@ export default {
         const response = await fetch('http://localhost:3000/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: regUsername.value, password: regPassword.value }),
+          body: JSON.stringify({ username: username.value, password: password.value }),
         });
         const data = await response.json();
         if (response.ok) {
           alert('Registration successful');
+          isRegistering.value = false; 
         } else {
           alert(data.error);
         }
@@ -82,8 +76,8 @@ export default {
     return {
       username,
       password,
-      regUsername,
-      regPassword,
+      isRegistering,
+      toggleForm,
       login,
       register,
     };
