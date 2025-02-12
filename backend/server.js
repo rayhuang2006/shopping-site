@@ -39,7 +39,6 @@ const Cart = sequelize.define('Cart', {
   quantity: { type: DataTypes.INTEGER, defaultValue: 1 },
 });
 
-// 設置關聯
 User.hasMany(Cart, { foreignKey: 'userId' });
 Cart.belongsTo(User, { foreignKey: 'userId' });
 
@@ -66,7 +65,7 @@ app.post('/login', async (req, res) => {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
   const token = jwt.sign({ userId: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
-  res.json({ message: 'Logged in', token });
+  res.json({ message: 'Logged in', token, role: user.role });
   console.log('Logged in successfully');
 });
 
@@ -88,9 +87,18 @@ const authenticateJWT = (req, res, next) => {
 
 //testcase - { "name": "book1", "desc": "cool book!", "price": 55, "category": "commerce", "imageUrl" : "abcde" }
 app.post('/product/add', authenticateJWT, async (req, res) => {
-  if (req.user.role !== 'user') return res.status(403).json({ error: 'Unauthorized' });
+  if (req.user.role !== 'admin') return res.status(403).json({ error: 'Unauthorized' });
   const product = await Product.create(req.body);
   res.json({ message: 'Product added', product });
+});
+
+app.delete('/product/delete/:id', authenticateJWT, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  const { id } = req.params;
+  await Product.destroy({ where: { id } });
+  res.json({ message: 'Product deleted' });
 });
 
 app.get('/product/list', async (req, res) => {
@@ -130,6 +138,14 @@ app.post('/cart/checkout', authenticateJWT, async (req, res) => {
   res.json({ message: 'Checkout successful' });
 });
 
-sequelize.sync().then(() => {
+//defaultUser : admin, password : admin
+sequelize.sync().then(async () => {
+  const adminExists = await User.findOne({ where: { username: 'admin' } });
+  if (!adminExists) {
+    const hashedPassword = await bcrypt.hash('admin', 10);
+    await User.create({ username: 'admin', password: hashedPassword, role: 'admin' });
+    console.log('Admin user created');
+  }
+
   app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 });
