@@ -10,6 +10,9 @@
       </ul>
     </div>
     <div>
+      <input type="text" v-model="searchQuery" placeholder="Search products..." />
+    </div>
+    <div>
       <div v-for="product in filteredProducts" :key="product.id">
         <h3>{{ product.name }}</h3>
         <p>{{ product.desc }}</p>
@@ -31,6 +34,7 @@ export default {
     const products = ref([]);
     const categories = ref([]);
     const selectedCategory = ref('');
+    const searchQuery = ref('');
     const route = useRoute();
     const router = useRouter();
     const role = ref(localStorage.getItem('role') || '');
@@ -94,16 +98,24 @@ export default {
 
     const filteredProducts = computed(() => {
       const category = route.params.category || selectedCategory.value;
-      if (!category || category === 'All') {
-        return products.value;
+      let filtered = products.value;
+
+      if (category && category !== 'All') {
+        filtered = filtered.filter(product => product.category === category);
       }
-      return products.value.filter(product => product.category === category);
+
+      if (searchQuery.value) {
+        filtered = filtered.filter(product => product.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
+      }
+
+      return filtered;
     });
 
     return {
       products,
       categories,
       selectedCategory,
+      searchQuery,
       filterByCategory,
       addToCart,
       deleteProduct,
