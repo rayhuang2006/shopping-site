@@ -1,28 +1,28 @@
 <template>
-  <div>
+  <div class="add-product-container">
     <h2>Add Product</h2>
     <form @submit.prevent="addProduct">
-      <div>
+      <div class="form-group">
         <label for="name">Product Name:</label>
         <input type="text" id="name" v-model="name" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="category">Category:</label>
         <input type="text" id="category" v-model="category" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="desc">Description:</label>
         <input type="text" id="desc" v-model="desc" />
       </div>
-      <div>
+      <div class="form-group">
         <label for="price">Price:</label>
         <input type="number" id="price" v-model="price" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="imageUrl">Image URL:</label>
         <input type="text" id="imageUrl" v-model="imageUrl" />
       </div>
-      <button type="submit">Add Product</button>
+      <button type="submit" class="submit-button">Add Product</button>
     </form>
   </div>
 </template>
@@ -81,3 +81,53 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.add-product-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+</style>

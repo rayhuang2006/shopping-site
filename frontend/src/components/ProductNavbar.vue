@@ -1,9 +1,10 @@
 <template>
-  <nav>
-    <div>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="@/assets/logo.png" alt="Logo" class="logo" />
       <span>INSPIRATION DVD STORE</span>
     </div>
-    <div>
+    <div class="navbar-menu">
       <span v-if="isLoggedIn">username: {{ username }}</span>
       <span v-if="isLoggedIn">role:  {{ role }}</span>
       <button v-if="!isLoggedIn" @click="goToLogin">Login</button>
@@ -63,3 +64,47 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-menu span {
+  margin-right: 15px;
+}
+
+.navbar-menu button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-menu button:hover {
+  background-color: #777;
+}
+</style>

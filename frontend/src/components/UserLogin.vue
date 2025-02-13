@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="login-container">
     <h2>{{ isRegistering ? 'Register' : 'Login' }}</h2>
     <form @submit.prevent="isRegistering ? register() : login()">
-      <div>
+      <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" id="username" v-model="username" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="password" required />
       </div>
-      <button type="submit">{{ isRegistering ? 'Register' : 'Login' }}</button>
+      <button type="submit" class="submit-button">{{ isRegistering ? 'Register' : 'Login' }}</button>
     </form>
-    <button @click="toggleForm">{{ isRegistering ? 'Already have an account? Login' : 'Don\'t have an account? Register' }}</button>
+    <button @click="toggleForm" class="toggle-button">{{ isRegistering ? 'Already have an account? Login' : 'Don\'t have an account? Register' }}</button>
   </div>
 </template>
 
@@ -84,3 +84,69 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.toggle-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.toggle-button:hover {
+  background-color: #5a6268;
+}
+</style>
