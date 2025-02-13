@@ -9,7 +9,7 @@
       <button v-if="!isLoggedIn" @click="goToLogin">Login</button>
       <button v-else @click="signOut">Sign Out</button>
       <button v-if="role === 'admin'" @click="goToAddProduct">Add</button>
-      <button v-else @click="goToCart">Cart</button>
+      <button v-else @click="goToCart">{{ $t('Cart') }}</button>
       <button @click="goToProductList">Home</button>
     </div>
   </nav>
