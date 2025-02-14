@@ -19,13 +19,23 @@
 <script>
 import { useRouter } from 'vue-router';
 import { isLoggedIn } from '../eventBus';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 export default {
   setup() {
     const router = useRouter();
     const username = ref(localStorage.getItem('username') || '');
     const role = ref(localStorage.getItem('role') || '');
+
+    watch(isLoggedIn, (newVal) => {
+      if (newVal) {
+        username.value = localStorage.getItem('username') || '';
+        role.value = localStorage.getItem('role') || '';
+      } else {
+        username.value = '';
+        role.value = '';
+      }
+    });
 
     const goToLogin = () => {
       router.push('/login');
