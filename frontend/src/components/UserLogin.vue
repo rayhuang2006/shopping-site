@@ -46,7 +46,7 @@ export default {
         if (response.ok) {
           localStorage.setItem('token', data.token);
           localStorage.setItem('username', username.value); 
-          localStorage.setItem('role', data.role); // 存儲 role
+          localStorage.setItem('role', data.role); 
           isLoggedIn.value = true; 
           router.push('/products/list');
         } else {
@@ -87,7 +87,7 @@ export default {
         if (response.ok) {
           localStorage.setItem('token', data.token);
           localStorage.setItem('username', data.name);
-          localStorage.setItem('role', 'user'); // 假設 Google 登錄的用戶角色為 'user'
+          localStorage.setItem('role', 'user'); 
           isLoggedIn.value = true;
           router.push('/products/list');
         } else {
@@ -99,25 +99,23 @@ export default {
     };
 
     onMounted(() => {
-      window.onload = () => {
-        if (CLIENT_ID) {
-          window.google.accounts.id.initialize({
-            client_id: CLIENT_ID,
-            callback: onLogin,
-            cancel_on_tap_outside: true,
-            context: 'signin',
-          });
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: CLIENT_ID,
+          callback: onLogin,
+          cancel_on_tap_outside: true,
+          context: 'signin',
+        });
 
-          window.google.accounts.id.renderButton(
-            document.getElementById('googleButton'),
-            { theme: 'outline', size: 'large' }
-          );
+        window.google.accounts.id.renderButton(
+          document.getElementById('googleButton'),
+          { theme: 'outline', size: 'large' }
+        );
 
-          window.google.accounts.id.prompt();
-        } else {
-          console.error("client_id doesn't exist!");
-        }
-      };
+        window.google.accounts.id.prompt();
+      } else {
+        console.error("Google API client library not loaded!");
+      }
     });
 
     return {
