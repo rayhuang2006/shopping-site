@@ -12,10 +12,23 @@ const CLIENT_ID = '873334368949-2fh00u2lq1v5ks9ae96bqdgmnq29opp6.apps.googleuser
 const CLIENT_URL = 'http://localhost:8080';
 
 app.use(express.json());
-app.use(cors({
-  origin: CLIENT_URL,
-  credentials: true,
-}));
+app.use(
+  cors({
+    //origin: "http://localhost:8080",
+    origin: (origin, callback) => {
+      if (!origin || origin.startsWith("http://localhost")) {
+        callback(null, true);
+      } else if (!origin || origin.startsWith("https://localhost")) {
+        callback(null, true);
+      } else if (!origin || origin.startsWith(`http://192.168`)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
