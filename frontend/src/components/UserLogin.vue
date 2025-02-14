@@ -26,6 +26,7 @@ const CLIENT_ID = "873334368949-2fh00u2lq1v5ks9ae96bqdgmnq29opp6.apps.googleuser
 
 export default {
   setup() {
+    const API_BASE_URL = process.env.VUE_APP_API_BASE_URL;
     const router = useRouter();
     const username = ref('');
     const password = ref('');
@@ -37,7 +38,7 @@ export default {
 
     const login = async () => {
       try {
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch(`${API_BASE_URL}/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: username.value, password: password.value }),
@@ -59,7 +60,7 @@ export default {
 
     const register = async () => {
       try {
-        const response = await fetch('http://localhost:3000/register', {
+        const response = await fetch(`${API_BASE_URL}/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: username.value, password: password.value }),
@@ -78,7 +79,7 @@ export default {
 
     const onLogin = async (res) => {
       try {
-        const response = await fetch('http://localhost:3000/verify-token', {
+        const response = await fetch(`${API_BASE_URL}/verify-token`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8080' },
           body: JSON.stringify(res),

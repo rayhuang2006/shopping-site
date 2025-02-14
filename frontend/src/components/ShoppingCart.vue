@@ -25,9 +25,10 @@ import { ref, onMounted, computed } from 'vue';
 export default {
   setup() {
     const cartItems = ref([]);
+    const API_BASE_URL = process.env.VUE_APP_API_BASE_URL;
 
     const fetchCartItems = async () => {
-      const response = await fetch('http://localhost:3000/cart/list', {
+      const response = await fetch(`${API_BASE_URL}/cart/list`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -35,14 +36,14 @@ export default {
       const data = await response.json();
 
       if (Array.isArray(data)) {
-        cartItems.value = data;  // 直接使用後端返回的數據
+        cartItems.value = data;  
       } else {
         console.error('Unexpected data format:', data);
       }
     };
 
     const removeFromCart = async (productId) => {
-      const response = await fetch('http://localhost:3000/cart/del', {
+      const response = await fetch(`${API_BASE_URL}/cart/del`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ export default {
     };
 
     const checkout = async () => {
-      const response = await fetch('http://localhost:3000/cart/checkout', {
+      const response = await fetch(`${API_BASE_URL}/cart/checkout`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

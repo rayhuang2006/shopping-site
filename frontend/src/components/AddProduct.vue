@@ -32,6 +32,7 @@ import { ref } from 'vue';
 
 export default {
   setup() {
+    const API_BASE_URL = process.env.VUE_APP_API_BASE_URL;
     const name = ref('');
     const category = ref('');
     const desc = ref('');
@@ -40,7 +41,7 @@ export default {
 
     const addProduct = async () => {
       try {
-        const response = await fetch('http://localhost:3000/product/add', {
+        const response = await fetch(`${API_BASE_URL}/product/add`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

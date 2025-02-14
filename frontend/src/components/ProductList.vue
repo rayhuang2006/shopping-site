@@ -35,6 +35,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 export default {
   setup() {
+    const API_BASE_URL = process.env.VUE_APP_API_BASE_URL;
     const products = ref([]);
     const categories = ref([]);
     const selectedCategory = ref('');
@@ -45,7 +46,7 @@ export default {
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/product/list', {
+        const response = await fetch(`${API_BASE_URL}/product/list`, {
           credentials: 'include',
         });
         const data = await response.json();
@@ -61,7 +62,7 @@ export default {
     };
 
     const addToCart = async (productId) => {
-      const response = await fetch('http://localhost:3000/cart/add', {
+      const response = await fetch(`${API_BASE_URL}/cart/add`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ export default {
     };
 
     const deleteProduct = async (productId) => {
-      const response = await fetch(`http://localhost:3000/product/delete/${productId}`, {
+      const response = await fetch(`${API_BASE_URL}/product/delete/${productId}`, {
         method: 'DELETE',
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
