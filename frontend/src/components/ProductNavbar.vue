@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar-brand">
-      <img src="@/assets/logo.png" alt="Logo" class="logo" />
+      <img src="@/assets/logo2.png" alt="Logo" class="logo" />
       <span>INSPIRATION DVD STORE</span>
     </div>
     <div class="navbar-menu">
