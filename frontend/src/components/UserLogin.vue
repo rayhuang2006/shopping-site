@@ -13,13 +13,16 @@
       <button type="submit" class="submit-button">{{ isRegistering ? 'Register' : 'Login' }}</button>
     </form>
     <button @click="toggleForm" class="toggle-button">{{ isRegistering ? 'Already have an account? Login' : 'Don\'t have an account? Register' }}</button>
+    <div id="googleButton" class="google-button"></div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { isLoggedIn } from '../eventBus';
+
+const CLIENT_ID = "873334368949-2fh00u2lq1v5ks9ae96bqdgmnq29opp6.apps.googleusercontent.com";
 
 export default {
   setup() {
@@ -72,6 +75,50 @@ export default {
         console.error('Error:', error);
       }
     };
+
+    const onLogin = async (res) => {
+      try {
+        const response = await fetch('http://localhost:3000/verify-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8080' },
+          body: JSON.stringify(res),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('username', data.name);
+          localStorage.setItem('role', 'user'); // 假設 Google 登錄的用戶角色為 'user'
+          isLoggedIn.value = true;
+          router.push('/products/list');
+        } else {
+          alert(data.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    onMounted(() => {
+      window.onload = () => {
+        if (CLIENT_ID) {
+          window.google.accounts.id.initialize({
+            client_id: CLIENT_ID,
+            callback: onLogin,
+            cancel_on_tap_outside: true,
+            context: 'signin',
+          });
+
+          window.google.accounts.id.renderButton(
+            document.getElementById('googleButton'),
+            { theme: 'outline', size: 'large' }
+          );
+
+          window.google.accounts.id.prompt();
+        } else {
+          console.error("client_id doesn't exist!");
+        }
+      };
+    });
 
     return {
       username,
@@ -148,5 +195,11 @@ h2 {
 
 .toggle-button:hover {
   background-color: #5a6268;
+}
+
+.google-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 </style>

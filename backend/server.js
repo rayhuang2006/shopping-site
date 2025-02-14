@@ -3,14 +3,17 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Sequelize, DataTypes } = require('sequelize');
+const { OAuth2Client } = require('google-auth-library');
 
 const app = express();
 const PORT = 3000;
 const SECRET_KEY = 'your_secret_key';
+const CLIENT_ID = '873334368949-2fh00u2lq1v5ks9ae96bqdgmnq29opp6.apps.googleusercontent.com';
+const CLIENT_URL = 'http://localhost:8080';
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: CLIENT_URL,
   credentials: true,
 }));
 
@@ -44,6 +47,38 @@ Cart.belongsTo(User, { foreignKey: 'userId' });
 
 Product.hasMany(Cart, { foreignKey: 'productId' });
 Cart.belongsTo(Product, { foreignKey: 'productId' });
+
+app.post('/verify-token', async (req, res) => {
+  const client = new OAuth2Client(CLIENT_ID);
+  const token = req.body.credential;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name, picture } = payload;
+
+    // 檢查用戶是否已存在
+    let user = await User.findOne({ where: { username: email } });
+    if (!user) {
+      user = await User.create({ username: email, password: '', role: 'user' });
+    }
+
+    const jwtToken = jwt.sign({ userId: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
+
+    res.json({
+      token: jwtToken,
+      name,
+      email,
+      picture,
+    });
+  } catch (error) {
+    res.status(400).json({ error: 'Invalid token' });
+  }
+});
 
 // testcase - { "username": "ray", "password": "1234" }
 app.post('/register', async (req, res) => {
@@ -125,7 +160,6 @@ app.get('/cart/list', authenticateJWT, async (req, res) => {
   });
   res.json(cartItems);
 });
-
 
 app.post('/cart/del', authenticateJWT, async (req, res) => {
   const { productId } = req.body;
