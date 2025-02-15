@@ -22,6 +22,8 @@ app.use(
         callback(null, true);
       } else if (!origin || origin.startsWith(`http://192.168`)) {
         callback(null, true);
+      } else if (!origin || origin.startsWith(`http://140.115.26.156`)) {
+        callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
