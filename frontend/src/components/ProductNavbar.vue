@@ -1,9 +1,11 @@
 <template>
   <nav class="navbar">
+    <router-link to="/">
     <div class="navbar-brand">
       <img src="@/assets/logo2.png" alt="Logo" class="logo" />
-      <span>{{$t('ProductNavbar.Title')}}</span>
+      <span class="navbar-title">{{$t('ProductNavbar.Title')}}</span>
     </div>
+    </router-link>
     <div class="navbar-menu">
       <span v-if="isLoggedIn">{{$t('ProductNavbar.Username')}}{{ username }}</span>
       <span v-if="isLoggedIn">{{ $t('ProductNavbar.Role')}}{{ role }}</span>
@@ -106,6 +108,13 @@ export default {
   height: 40px;
   margin-right: 10px;
 }
+
+.navbar-title {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
 
 .navbar-menu {
   display: flex;
