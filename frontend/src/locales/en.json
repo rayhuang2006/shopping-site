@@ -1,3 +1,46 @@
 {
-  "Cart": "Cart"
+  "ProductNavbar": {
+    "Title": "Inspiration Cat's Cinema",
+    "Cart": "Cart",
+    "Home": "Home",
+    "SignOut": "Sign Out",
+    "SignIn": "Sign In",
+    "Role": "Role: ",
+    "Username": "Username: ",
+    "Add": "Add"
+  },
+  "ShoppingCart":{
+    "Title": "Shopping Cart",
+    "Empty": "Your cart is empty......",
+    "Price": "Price: ",
+    "Quantity": "Quantity: ",
+    "Total": "Total: ",
+    "Remove": "Remove",
+    "Checkout": "Checkout"
+  },
+  "AddProduct":{
+    "Title": "Add Product",
+    "ProductName": "Product Name: ",
+    "Categories": "Categories: ",
+    "Description": "Description: ",
+    "Price": "Price: ",
+    "ImageURL": "Image URL: ",
+    "Add": "Add"
+  },
+  "ProductList": {
+    "Categories": "Categories: ",
+    "All": "All",
+    "ProductList": "Product List",
+    "Search": "Search",
+    "Add": "Add to Cart",
+    "Delete": "Delete"
+  },
+  "UserLogin": {
+    "username": "Username:",
+    "password": "Password:",
+    "Login": "Login",
+    "Register": "Register",
+    "AlreadyHaveAccount": "Already have an account? Login",
+    "DontHaveAccount": "Don't have an account? Register"
+  }
 }

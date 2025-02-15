@@ -1,18 +1,18 @@
 <template>
   <div class="login-container">
-    <h2>{{ isRegistering ? 'Register' : 'Login' }}</h2>
+    <h2>{{ isRegistering ? $t("UserLogin.Register") : $t('UserLogin.Login') }}</h2>
     <form @submit.prevent="isRegistering ? register() : login()">
       <div class="form-group">
-        <label for="username">Username:</label>
+        <label for="username">{{ $t("UserLogin.username") }}</label>
         <input type="text" id="username" v-model="username" required />
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
+        <label for="password">{{ $t("UserLogin.password") }}</label>
         <input type="password" id="password" v-model="password" required />
       </div>
-      <button type="submit" class="submit-button">{{ isRegistering ? 'Register' : 'Login' }}</button>
+      <button type="submit" class="submit-button">{{ isRegistering ? $t("UserLogin.Register") : $t('UserLogin.Login') }}</button>
     </form>
-    <button @click="toggleForm" class="toggle-button">{{ isRegistering ? 'Already have an account? Login' : 'Don\'t have an account? Register' }}</button>
+    <button @click="toggleForm" class="toggle-button">{{ isRegistering ? $t('UserLogin.AlreadyHaveAccount') : $t('UserLogin.DontHaveAccount') }}</button>
     <div id="googleButton" class="google-button"></div>
   </div>
 </template>

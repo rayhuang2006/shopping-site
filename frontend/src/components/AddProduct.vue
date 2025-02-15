@@ -1,28 +1,28 @@
 <template>
   <div class="add-product-container">
-    <h2>Add Product</h2>
+    <h2>{{ $t("AddProduct.Title") }}</h2>
     <form @submit.prevent="addProduct">
       <div class="form-group">
-        <label for="name">Product Name:</label>
+        <label for="name">{{ $t("AddProduct.ProductName") }}</label>
         <input type="text" id="name" v-model="name" required />
       </div>
       <div class="form-group">
-        <label for="category">Category:</label>
+        <label for="category">{{ $t("AddProduct.Categories") }}</label>
         <input type="text" id="category" v-model="category" required />
       </div>
       <div class="form-group">
-        <label for="desc">Description:</label>
+        <label for="desc">{{ $t("AddProduct.Description") }}</label>
         <input type="text" id="desc" v-model="desc" />
       </div>
       <div class="form-group">
-        <label for="price">Price:</label>
+        <label for="price">{{ $t("AddProduct.Price") }}</label>
         <input type="number" id="price" v-model="price" required />
       </div>
       <div class="form-group">
-        <label for="imageUrl">Image URL:</label>
+        <label for="imageUrl">{{ $t("AddProduct.ImageURL") }}</label>
         <input type="text" id="imageUrl" v-model="imageUrl" />
       </div>
-      <button type="submit" class="submit-button">Add Product</button>
+      <button type="submit" class="submit-button">{{ $t("AddProduct.Add") }}</button>
     </form>
   </div>
 </template>

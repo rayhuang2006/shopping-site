@@ -1,20 +1,22 @@
 <template>
   <div class="shopping-cart">
-    <h2>Shopping Cart</h2>
+    <h2>{{ $t("ShoppingCart.Title") }}</h2>
     <div v-if="cartItems.length === 0">
-      <p>Your cart is empty.</p>
+      <p>{{ $t("ShoppingCart.Empty") }}</p>
     </div>
     <div v-else>
       <ul class="cart-items">
         <li v-for="item in cartItems" :key="item.productId" class="cart-item">
-          <h3>{{ item.Product.name }}</h3>
-          <p>Price: {{ item.Product.price }}</p>
-          <p>Quantity: {{ item.quantity }}</p>
-          <button @click="removeFromCart(item.productId)">Remove</button>
+          <div class="item-details">
+            <h3>{{ item.Product.name }}</h3>
+            <p>{{ $t("ShoppingCart.Price") }}{{ item.Product.price }}</p>
+            <p>{{ $t("ShoppingCart.Quantity") }}{{ item.quantity }}</p>
+          </div>
+          <button @click="removeFromCart(item.productId)" class="remove-button">{{ $t("ShoppingCart.Remove") }}</button>
         </li>
       </ul>
-      <p class="total-price">Total: {{ totalPrice }}</p>
-      <button class="checkout-button" @click="checkout">Checkout</button>
+      <p class="total-price">{{ $t("ShoppingCart.Total") }}{{ totalPrice }}</p>
+      <button class="checkout-button" @click="checkout">{{ $t("ShoppingCart.Checkout") }}</button>
     </div>
   </div>
 </template>
@@ -115,8 +117,15 @@ h2 {
 }
 
 .cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
+}
+
+.item-details {
+  flex-grow: 1;
 }
 
 .cart-item h3 {
@@ -127,7 +136,7 @@ h2 {
   margin: 5px 0;
 }
 
-.cart-item button {
+.remove-button {
   padding: 5px 10px;
   background-color: #dc3545;
   color: #fff;
@@ -136,7 +145,7 @@ h2 {
   cursor: pointer;
 }
 
-.cart-item button:hover {
+.remove-button:hover {
   background-color: #c82333;
 }
 

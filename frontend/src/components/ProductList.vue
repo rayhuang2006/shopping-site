@@ -1,7 +1,7 @@
 <template>
   <div class="product-list">
     <div class="sidebar">
-      <h3>Categories</h3>
+      <h3>{{ $t("ProductList.Categories") }}</h3>
       <ul>
         <li v-for="category in categories" :key="category" @click="goToCategory(category)">
           {{ category }}
@@ -9,7 +9,7 @@
       </ul>
     </div>
     <div class="main-content">
-      <h2>Product List</h2>
+      <h2>{{ $t("ProductList.ProductList") }}</h2>
       <div class="search">
         <input type="text" v-model="searchQuery" placeholder="Search products..." />
       </div>
@@ -19,9 +19,9 @@
           <p>{{ product.desc }}</p>
           <img :src="product.imageUrl" alt="Product Image" />
           <div class="product-footer">
-            <p class="product-price">{{ product.price }}</p>
-            <button v-if="role === 'admin'" @click="deleteProduct(product.id)">Delete</button>
-            <button v-else @click="addToCart(product.id)">Add to Cart</button>
+            <p class="product-price">${{ product.price }}</p>
+            <button v-if="role === 'admin'" @click="deleteProduct(product.id)">{{ $t("ProductList.Delete") }}</button>
+            <button v-else @click="addToCart(product.id)">{{ $t("ProductList.Add") }}</button>
           </div>
         </div>
       </div>

@@ -1,3 +1,46 @@
 {
-  "Cart": "購物車"
+  "ProductNavbar": {
+    "Title": "靈感貓的電影院",
+    "Cart": "購物車",
+    "Home": "首頁",
+    "SignOut": "登出",
+    "SignIn": "登入",
+    "Role": "身份：",
+    "Username": "用戶名：",
+    "Add": "新增"
+  },
+  "ShoppingCart":{
+    "Title": "購物車",
+    "Empty": "你的購物車是空的......",
+    "Price": "價格：",
+    "Quantity": "數量：",
+    "Total": "總價：",
+    "Remove": "移除",
+    "Checkout": "結帳"
+  },
+  "AddProduct":{
+    "Title": "新增商品",
+    "ProductName": "商品名稱：",
+    "Categories": "商品分類：",
+    "Description": "商品描述：",
+    "Price": "商品價格：",
+    "ImageURL": "圖片網址：",
+    "Add": "新增"
+  },
+  "ProductList": {
+    "Categories": "商品分類：",
+    "All": "全部",
+    "ProductList": "商品列表",
+    "Search": "搜尋",
+    "Add": "加入購物車",
+    "Delete": "刪除"
+  },
+  "UserLogin": {
+    "username": "用戶名：",
+    "password": "密碼：",
+    "Login": "登入",
+    "Register": "註冊",
+    "AlreadyHaveAccount": "已經有帳號了？登入",
+    "DontHaveAccount": "沒有帳號？註冊"
+  }
 }
