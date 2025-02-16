@@ -7,7 +7,8 @@
     "SignIn": "登入",
     "Role": "身份：",
     "Username": "用戶名：",
-    "Add": "新增"
+    "Add": "新增",
+    "EmptyCart": "購物車是空的"
   },
   "ShoppingCart":{
     "Title": "購物車",
