@@ -21,7 +21,7 @@
           <div class="product-footer">
             <p class="product-price">${{ product.price }}</p>
             <button v-if="role === 'admin'" @click="deleteProduct(product.id)">{{ $t("ProductList.Delete") }}</button>
-            <button v-else @click="addToCart(product.id)">{{ $t("ProductList.Add") }}</button>
+            <button v-else-if="isLoggedIn" @click="addToCart(product.id)">{{ $t("ProductList.Add") }}</button>
           </div>
         </div>
       </div>
@@ -32,6 +32,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { isLoggedIn } from '../eventBus';
 
 export default {
   setup() {
@@ -127,6 +128,7 @@ export default {
       filteredProducts,
       goToCategory,
       role,
+      isLoggedIn,
     };
   },
 };
